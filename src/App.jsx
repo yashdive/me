@@ -21,46 +21,37 @@ const experiences = [
 
 const works = [
   {
-    slug: 'llm-rubric-generation',
-    title: 'LLM Rubric Generation System',
-    period: '2025',
+    slug: 'concept-aware-student-response-classification',
+    title: 'Concept-Aware Student Response Classification',
+    period: 'Academic Project',
     description:
-      'Designed and shipped a GPT-4 based rubric generation workflow for block-based coding assignments with high instructor alignment and lower manual grading effort.',
-    tags: ['GPT-4', 'Evaluation', 'EdTech'],
-    details: [
-      'Built an end-to-end rubric generation pipeline for Snapclass to evaluate block-based student submissions consistently.',
-      'Fine-tuned behavior using curated instructor examples and 500+ labeled submissions to improve rubric specificity.',
-      'Integrated the system into grading workflows used by instructors and 150+ students with real-time rubric generation.',
-      'Improved alignment with instructor expectations and reduced manual grading time while increasing grading consistency.',
-    ],
+      'A multi-class text classifier that scores concept understanding across four correctness levels, beyond keyword matching.',
+    tags: ['BERT', 'PyTorch', 'NLP'],
+    fullDescription:
+      'This is a multi-class classifier that evaluates student responses at four levels of correctness to capture conceptual understanding rather than keyword overlap. I fine-tuned BERT with PyTorch/HuggingFace on 3,000+ student Q&A pairs and handled a 60/40 class imbalance using SMOTE and class weighting. The model encodes responses into contextual embeddings and maps them to one of four correctness levels with a classification head. Results were 85% accuracy and 0.81 macro-F1, with minority-class F1 improved from 0.52 to 0.73 after imbalance handling, and the findings were published to a class repository with 25+ downloads. I also learned that accuracy alone is misleading on imbalanced data and that fine-tuning choices across learning rates, batch sizes, and epochs materially change concept-level reasoning versus keyword matching.',
+    skills: ['BERT', 'PyTorch', 'HuggingFace', 'SMOTE', 'Ablation Studies'],
   },
   {
-    slug: 'ai-invoice-validation',
-    title: 'AI Invoice Validation Platform',
-    period: '2022 - 2025',
+    slug: 'hybrid-movie-recommendation-engine',
+    title: 'Hybrid Movie Recommendation Engine',
+    period: 'Academic Project',
     description:
-      'Built an enterprise invoice validation stack with classifier + rules + NER extraction, deployed on AWS with retraining and monitoring for production reliability.',
-    tags: ['BERT', 'spaCy', 'AWS'],
-    details: [
-      'Designed a hybrid system combining ML classification, rules, and NER extraction for invoice compliance.',
-      'Implemented backend APIs and model-serving services for high-volume enterprise validation workflows.',
-      'Deployed on AWS with orchestration, retraining strategy, and monitoring for reliability under production traffic.',
-      'Reduced false positives and manual review effort through iterative model and pipeline improvements.',
-    ],
+      'A hybrid recommender that blends collaborative filtering, content signals, and neural re-ranking to handle cold-start users.',
+    tags: ['Recommender', 'SVD', 'PyTorch'],
+    fullDescription:
+      'This is a recommendation system that blends collaborative filtering, content-based filtering, and a neural re-ranking layer to generate personalized movie suggestions, with special focus on cold-start users. I used SVD matrix factorization for collaborative filtering and TF-IDF embeddings on genre and plot metadata for content-based filtering, then trained a PyTorch re-ranker on MovieLens 100K to fuse latent user-item factors with content features. The system generates candidates from both models and re-ranks them with a combined representation, while new users rely more on content signals to avoid blank recommendations. Results showed an 18% improvement in recommendation relevance, a 30% reduction in cold-start failures, and better coverage of long-tail titles. The biggest learning was that the balance between collaborative and content signals must adapt to how much user history is available to avoid generic outputs.',
+    skills: ['SVD', 'TF-IDF', 'PyTorch', 'Re-Ranking', 'MovieLens'],
   },
   {
-    slug: 'contract-demand-dashboard',
-    title: 'Contract & Demand Dashboard',
-    period: '2024',
+    slug: 'poultry-disease-classifier',
+    title: 'Poultry Disease Classifier',
+    period: 'Academic Project',
     description:
-      'Developed secure backend APIs and analytics workflows for operations teams, with optimization and CI/CD improvements to speed up releases.',
-    tags: ['REST APIs', 'CI/CD', 'Performance'],
-    details: [
-      'Built secure REST services with role-based access and robust data contracts for operations use cases.',
-      'Improved query performance via indexing, caching, and endpoint-level optimizations for better responsiveness.',
-      'Designed CI/CD workflows with quality checks and deployment automation to shorten release cycles.',
-      'Delivered a more reliable and maintainable backend platform for cross-team dashboard usage.',
-    ],
+      'An image classifier that identifies six poultry diseases with a reproducible MLOps pipeline.',
+    tags: ['ResNet50', 'Computer Vision', 'MLOps'],
+    fullDescription:
+      'This is an image classification model that identifies six poultry diseases from photographs, built with a full MLOps pipeline for reproducibility. I used transfer learning on ResNet50, replaced the final layer for six classes, and created a custom augmentation pipeline in PyTorch/TensorFlow with random flips, rotations, and brightness shifts to handle limited data. ResNet50 extracts visual features, a custom head maps them to disease classes, and GitHub Actions CI runs automated validation on every change. DVC versioned datasets and MLflow tracked 30+ runs so every experiment is tied to exact data and hyperparameters. The model reached 89% validation accuracy, and I learned that augmentation strategy matters as much as architecture and that MLOps tooling saves substantial time when comparing runs.',
+    skills: ['ResNet50', 'Transfer Learning', 'DVC', 'MLflow', 'GitHub Actions'],
   },
 ];
 
@@ -96,9 +87,9 @@ const researchItems = [
 ];
 
 const navLinkClass =
-  'text-base text-zinc-400 transition-all duration-500 ease-out hover:-translate-y-0.5 hover:text-zinc-300';
+  'body-text text-muted transition-all duration-500 ease-out hover:-translate-y-0.5 hover-soft';
 const socialIconClass =
-  'inline-flex h-12 w-12 items-center justify-center text-zinc-400 transition-all duration-500 ease-out hover:-translate-y-0.5 hover:text-zinc-300';
+  'inline-flex h-12 w-12 items-center justify-center text-muted transition-all duration-500 ease-out hover:-translate-y-0.5 hover-soft';
 
 export default function App() {
   const [scrolled, setScrolled] = useState(false);
@@ -206,56 +197,63 @@ export default function App() {
 
   if (selectedWork) {
     return (
-      <div className="min-h-screen w-full bg-black px-4 pb-14 pt-12 text-zinc-400 md:px-10 lg:px-16">
+      <div className="min-h-screen w-full app-root px-4 pb-14 pt-12 md:px-10 lg:px-16">
         <div className="mx-auto max-w-4xl">
           <button
             type="button"
             onClick={() => {
               window.location.hash = '#my-work';
             }}
-            className="mb-8 text-sm font-semibold text-zinc-400 transition-colors duration-300 hover:text-zinc-300"
+            className="mb-8 body-text text-link transition-colors duration-300 hover-soft"
           >
             ← Back to My Work
           </button>
 
-          <p className="text-sm text-zinc-500">{selectedWork.period}</p>
-          <h1 className="mt-2 text-[clamp(2rem,4.8vw,3.4rem)] font-semibold tracking-tight text-zinc-300">
+          <p className="body-text text-muted">{selectedWork.period}</p>
+          <h1 className="mt-2 heading-2 tracking-tight text-primary">
             {selectedWork.title}
           </h1>
 
-          <p className="mt-6 max-w-[70ch] text-lg leading-relaxed text-zinc-400">
-            {selectedWork.description}
-          </p>
-
-          <ul className="mt-8 space-y-4">
-            {selectedWork.details.map((point) => (
-              <li key={point} className="rounded-xl bg-zinc-950/45 p-4 leading-relaxed text-zinc-400">
-                {point}
-              </li>
-            ))}
-          </ul>
+          <div className="mt-6 card p-6 sm:p-7">
+            <p className="body-text text-primary">
+              {selectedWork.fullDescription}
+            </p>
+            <div className="mt-6">
+              <p className="body-text text-muted uppercase tracking-[0.22em]">
+                Skills
+              </p>
+              <ul className="mt-3 flex flex-wrap gap-2">
+                {selectedWork.skills.map((skill) => (
+                  <li
+                    key={skill}
+                    className="rounded-full border border-subtle px-3 py-1 body-text text-muted"
+                  >
+                    {skill}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden bg-black px-4 pb-14 text-zinc-400 md:px-10 lg:px-16">
+    <div className="min-h-screen w-full overflow-x-hidden app-root px-4 pb-14 md:px-10 lg:px-16">
       <nav
         className={`fixed left-0 right-0 top-0 z-50 flex flex-wrap items-center justify-between gap-3 border-b px-4 pb-5 pt-4 transition-all duration-300 md:px-10 lg:px-16 ${
-          scrolled
-            ? 'border-zinc-800/70 bg-zinc-950/45 backdrop-blur-md'
-            : 'border-zinc-900 bg-transparent'
+          scrolled ? 'nav-scrolled' : 'nav-clear'
         }`}
       >
         <a
           href="#home"
           onClick={(e) => handleSlowNav(e, '#home')}
-          className="text-lg font-semibold lowercase tracking-tight text-zinc-400 transition-colors duration-500 ease-out hover:text-zinc-300"
+          className="heading-4 text-primary lowercase tracking-tight transition-colors duration-500 ease-out hover-soft"
         >
           yash dive
         </a>
-        <div className="flex flex-wrap font-semibold items-center gap-4">
+        <div className="flex flex-wrap items-center gap-4">
           <a href="#home" onClick={(e) => handleSlowNav(e, '#home')} className={navLinkClass}>
             Home
           </a>
@@ -270,8 +268,8 @@ export default function App() {
         id="home"
         className="grid min-h-[72vh] grid-cols-1 items-center gap-6 pb-12 pt-8 md:grid-cols-[1fr_minmax(240px,34vw)]"
       >
-        <div className="flex min-h-full max-w-[560px] flex-col justify-center gap-5">
-          <p className="whitespace-nowrap text-[clamp(3.2rem,11vw,8.8rem)] font-semibold lowercase leading-[0.9] tracking-[-0.03em] text-zinc-400">
+        <div className="flex min-h-full max-w-[560px] flex-col items-center justify-center gap-5 md:items-center">
+          <p className="hero-name text-primary lowercase tracking-tight text-center">
             yash dive
           </p>
 
@@ -307,13 +305,13 @@ export default function App() {
           <img
             src={profileImage}
             alt="Yash Dive portrait"
-            className="aspect-[5/4] w-full max-w-[560px] object-cover"
+            className="aspect-[5/4] w-full max-w-[560px] object-cover image-pop"
           />
         </div>
       </header>
 
       <main>
-        <section id="work" className="grid grid-cols-1 items-center gap-6 border-t border-zinc-900 pt-8 lg:grid-cols-2">
+        <section id="work" className="grid grid-cols-1 items-center gap-6 border-t border-subtle pt-8 lg:grid-cols-2">
           <div className="flex justify-center lg:justify-start">
             <img
               src={transformerImage}
@@ -322,7 +320,7 @@ export default function App() {
             />
           </div>
           <div>
-            <div className="max-w-[60ch] space-y-4 text-lg font-semibold leading-relaxed text-zinc-400">
+            <div className="max-w-[60ch] space-y-4 body-text text-muted">
               <p>
                 I didn&apos;t fall in love with computer science because of code. I loved the idea
                 that a thought can become something real, a system or solution that didn&apos;t exist
@@ -348,16 +346,16 @@ export default function App() {
         <section
           id="experience"
           ref={experienceRef}
-          className="mt-12 border-t border-zinc-900 pt-8"
+          className="mt-12 border-t border-subtle pt-8"
         >
-          <h2 className="mb-8 text-center text-[clamp(2rem,4.8vw,3.2rem)] tracking-[-0.015em] text-zinc-400">
+          <h2 className="mb-8 text-center heading-2 text-primary">
             My Experiences
           </h2>
 
-          <div className="relative mx-auto max-w-5xl pl-10 pr-10">
-            <div className="absolute left-3 top-1 h-[calc(100%-0.5rem)] w-px bg-zinc-900" />
+          <div className="relative mx-auto max-w-5xl px-6 sm:px-10">
+            <div className="absolute left-3 top-1 h-[calc(100%-0.5rem)] w-px timeline-track" />
             <div
-              className="absolute left-3 top-1 w-px bg-zinc-400"
+              className="absolute left-3 top-1 w-px timeline-progress"
               style={{ height: `${timelineProgress}%` }}
             />
 
@@ -369,17 +367,13 @@ export default function App() {
                 return (
                 <article
                   key={`${item.company}-${item.role}`}
-                  className={`relative rounded-2xl p-5 transition-all duration-500 ease-out ${
-                    active
-                      ? 'bg-zinc-950/70'
-                      : 'bg-zinc-950/35'
-                  }`}
+                  className="relative p-5 transition-all duration-500 ease-out card-outline"
                 >
-                  <h3 className="text-2xl font-semibold text-zinc-300">{item.company}</h3>
-                  <p className="mt-2 text-lg font-semibold text-zinc-400/90">
+                  <h3 className="heading-3 text-primary">{item.company}</h3>
+                  <p className="mt-2 body-text text-muted">
                     {item.role} · {item.dates}
                   </p>
-                  <p className="mt-4 max-w-[70ch] text-lg font-semibold leading-relaxed text-zinc-400/95">
+                  <p className="mt-4 w-full body-text text-muted">
                     {item.summary}
                   </p>
                 </article>
@@ -388,8 +382,8 @@ export default function App() {
           </div>
         </section>
 
-        <section id="my-work" ref={nextSectionRef} className="mt-12 border-t border-zinc-900 pt-8">
-          <h2 className="mb-8 text-center text-[clamp(2rem,4.8vw,3.2rem)] tracking-[-0.015em] text-zinc-400">
+        <section id="my-work" ref={nextSectionRef} className="mt-12 border-t border-subtle pt-8">
+          <h2 className="mb-8 text-center heading-2 text-primary">
             Check Out My Work
           </h2>
 
@@ -397,16 +391,16 @@ export default function App() {
             {works.map((item) => (
               <article
                 key={item.title}
-                className="flex min-h-[340px] flex-col rounded-2xl border border-zinc-800 bg-zinc-950/45 p-6"
+                className="flex min-h-[340px] flex-col card-outline p-6"
               >
-                <p className="text-sm text-zinc-500">{item.period}</p>
-                <h3 className="mt-2 text-3xl font-semibold text-zinc-300">{item.title}</h3>
-                <p className="mt-4 text-lg font-semibold leading-relaxed text-zinc-400">{item.description}</p>
+                <p className="body-text text-muted">{item.period}</p>
+                <h3 className="mt-2 heading-3 text-primary">{item.title}</h3>
+                <p className="mt-4 body-text text-muted">{item.description}</p>
                 <ul className="mt-5 flex flex-wrap gap-2">
                   {item.tags.map((tag) => (
                     <li
                       key={tag}
-                      className="rounded-full border border-zinc-900 px-3 py-1 text-xs font-semibold text-zinc-400"
+                      className="rounded-full border border-subtle px-3 py-1 body-text text-muted"
                     >
                       {tag}
                     </li>
@@ -417,7 +411,7 @@ export default function App() {
                   onClick={() => {
                     window.location.hash = `#project/${item.slug}`;
                   }}
-                  className="mt-auto pt-6 text-sm font-semibold text-zinc-400 transition-colors duration-300 hover:text-zinc-300"
+                  className="mt-auto pt-6 body-text text-link transition-colors duration-300 hover-soft"
                 >
                   View Details →
                 </button>
@@ -426,8 +420,8 @@ export default function App() {
           </div>
         </section>
 
-        <section id="research" className="mt-12 border-t border-zinc-900 pt-8">
-          <h2 className="mb-8 text-center text-[clamp(2rem,4.8vw,3.2rem)] tracking-[-0.015em] text-zinc-400">
+        <section id="research" className="mt-12 border-t border-subtle pt-8">
+          <h2 className="mb-8 text-center heading-2 text-primary">
             Some Side Research Quests
           </h2>
 
@@ -435,27 +429,27 @@ export default function App() {
             {researchItems.map((item) => (
               <article
                 key={item.title}
-                className="rounded-2xl border border-zinc-800 bg-zinc-950/45 p-6"
+                className="card-outline p-6"
               >
-                <p className="text-sm font-semibold text-zinc-500">{item.area}</p>
-                <h3 className="mt-2 text-2xl font-semibold text-zinc-300">{item.title}</h3>
-                <p className="mt-4 text-lg font-semibold leading-relaxed text-zinc-400">
+                <p className="body-text text-muted">{item.area}</p>
+                <h3 className="mt-2 heading-3 text-primary">{item.title}</h3>
+                <p className="mt-4 body-text text-muted">
                   {item.summary}
                 </p>
                 {item.proof ? (
-                  <p className="mt-4 text-sm font-semibold text-zinc-500">{item.proof}</p>
+                  <p className="mt-4 body-text text-muted">{item.proof}</p>
                 ) : null}
                 {item.url ? (
                   <a
                     href={item.url}
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-6 inline-block text-sm font-semibold text-zinc-400 transition-colors duration-300 hover:text-zinc-300"
+                    className="mt-6 inline-block body-text text-link transition-colors duration-300 hover-soft"
                   >
                     Read Paper →
                   </a>
                 ) : (
-                  <p className="mt-6 text-sm font-semibold text-zinc-500">Granted Patent</p>
+                  <p className="mt-6 body-text text-muted">Granted Patent</p>
                 )}
               </article>
             ))}
@@ -464,13 +458,13 @@ export default function App() {
 
       </main>
 
-      <footer id="contact" className="mt-10 flex justify-center border-t border-zinc-900 pt-4">
+      <footer id="contact" className="mt-10 flex justify-center border-t border-subtle pt-4">
         <div className="flex items-center gap-2">
           <a
             href="https://github.com/"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex h-9 w-9 items-center justify-center text-zinc-400 transition-colors duration-500 ease-out hover:text-zinc-300"
+            className="inline-flex h-9 w-9 items-center justify-center text-muted transition-colors duration-500 ease-out hover-soft"
             aria-label="GitHub"
           >
             <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
@@ -481,7 +475,7 @@ export default function App() {
             href="https://www.instagram.com/"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex h-9 w-9 items-center justify-center text-zinc-400 transition-colors duration-500 ease-out hover:text-zinc-300"
+            className="inline-flex h-9 w-9 items-center justify-center text-muted transition-colors duration-500 ease-out hover-soft"
             aria-label="Instagram"
           >
             <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
@@ -492,7 +486,7 @@ export default function App() {
             href="https://www.linkedin.com/"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex h-9 w-9 items-center justify-center text-zinc-400 transition-colors duration-500 ease-out hover:text-zinc-300"
+            className="inline-flex h-9 w-9 items-center justify-center text-muted transition-colors duration-500 ease-out hover-soft"
             aria-label="LinkedIn"
           >
             <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
@@ -501,7 +495,7 @@ export default function App() {
           </a>
           <a
             href="mailto:youremail@example.com"
-            className="inline-flex h-9 w-9 items-center justify-center text-zinc-400 transition-colors duration-500 ease-out hover:text-zinc-300"
+            className="inline-flex h-9 w-9 items-center justify-center text-muted transition-colors duration-500 ease-out hover-soft"
             aria-label="Email"
           >
             <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
