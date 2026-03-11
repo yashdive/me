@@ -491,7 +491,7 @@ export default function App() {
 
         <section id="sketches" className="mt-12 border-t border-subtle pb-12 pt-8">
           <h2 className="mb-8 text-center heading-2 text-primary">
-            Enjoy My Sketches
+            and of course, some sketches I did for fun and cause I could...
           </h2>
 
           <div className="mx-auto grid w-full grid-cols-3 gap-14 px-2 sketch-grid">
