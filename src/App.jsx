@@ -1,6 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
 import profileImage from '../assets/attention.jpg';
 import transformerImage from '../assets/transformer1.png';
+import sketch01 from '../assets/sketches/WhatsApp Image 2026-01-12 at 07.08.46.jpeg';
+import sketch02 from '../assets/sketches/WhatsApp Image 2026-01-12 at 07.08.51 (1).jpeg';
+import sketch03 from '../assets/sketches/WhatsApp Image 2026-01-12 at 07.08.52 (4).jpeg';
+import sketch04 from '../assets/sketches/WhatsApp Image 2026-01-12 at 07.09.00 (5).jpeg';
+import sketch05 from '../assets/sketches/WhatsApp Image 2026-01-12 at 07.09.04.jpeg';
+import sketch06 from '../assets/sketches/WhatsApp Image 2026-01-12 at 07.09.05 (5).jpeg';
+import sketch07 from '../assets/sketches/WhatsApp Image 2026-01-12 at 07.09.06 (5).jpeg';
+import sketch08 from '../assets/sketches/WhatsApp Image 2026-01-12 at 07.09.07 (1).jpeg';
+import sketch09 from '../assets/sketches/WhatsApp Image 2026-01-12 at 07.09.09 (2).jpeg';
+import sketch10 from '../assets/sketches/WhatsApp Image 2026-01-12 at 07.09.09 (3).jpeg';
+import sketch11 from '../assets/sketches/WhatsApp Image 2026-01-12 at 07.09.10 (5).jpeg';
+import sketch12 from '../assets/sketches/WhatsApp Image 2026-01-12 at 07.09.11.jpeg';
+import sketch13 from '../assets/sketches/WhatsApp Image 2026-01-12 at 07.09.12 (1).jpeg';
+import sketch14 from '../assets/sketches/WhatsApp Image 2026-01-12 at 07.09.12.jpeg';
+import sketch15 from '../assets/sketches/WhatsApp Image 2026-01-12 at 07.10.28 (1).jpeg';
 
 const experiences = [
   {
@@ -84,6 +99,24 @@ const researchItems = [
       'In this paper, we focused on solving a real pandemic-era problem: students could not travel to campuses for basic academic information. We proposed a university-focused chatbot that can be accessed anytime on the college website, supports multiple users, and provides details like fees, schedules, and department-related queries. The system is designed with AI/ML and supports multilingual input and output for broader accessibility.',
     url: 'http://hbrppublication.com/OJS/index.php/JASET/article/view/2175',
   },
+];
+
+const sketches = [
+  { src: sketch01, alt: 'Sketch 1' },
+  { src: sketch02, alt: 'Sketch 2' },
+  { src: sketch03, alt: 'Sketch 3' },
+  { src: sketch04, alt: 'Sketch 4' },
+  { src: sketch05, alt: 'Sketch 5' },
+  { src: sketch06, alt: 'Sketch 6' },
+  { src: sketch07, alt: 'Sketch 7' },
+  { src: sketch08, alt: 'Sketch 8' },
+  { src: sketch09, alt: 'Sketch 9' },
+  { src: sketch10, alt: 'Sketch 10' },
+  { src: sketch11, alt: 'Sketch 11' },
+  { src: sketch12, alt: 'Sketch 12' },
+  { src: sketch13, alt: 'Sketch 13' },
+  { src: sketch14, alt: 'Sketch 14' },
+  { src: sketch15, alt: 'Sketch 15' },
 ];
 
 const navLinkClass =
@@ -452,6 +485,25 @@ export default function App() {
                   <p className="mt-6 body-text text-muted">Granted Patent</p>
                 )}
               </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="sketches" className="mt-12 border-t border-subtle pb-12 pt-8">
+          <h2 className="mb-8 text-center heading-2 text-primary">
+            Enjoy My Sketches
+          </h2>
+
+          <div className="mx-auto grid w-full grid-cols-3 gap-14 px-2 sketch-grid">
+            {sketches.map((sketch) => (
+              <figure key={sketch.src} className="sketch-card">
+                <img
+                  src={sketch.src}
+                  alt={sketch.alt}
+                  className="aspect-[2/3] w-[64%] object-cover mx-auto sketch-image"
+                  loading="lazy"
+                />
+              </figure>
             ))}
           </div>
         </section>

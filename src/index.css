@@ -148,4 +148,31 @@
   .image-pop {
     box-shadow: 0 18px 40px -28px rgba(161, 161, 170, 0.45);
   }
+
+  .sketch-card {
+    break-inside: avoid;
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    will-change: transform;
+    transform: translateY(var(--sketch-offset, 0px));
+  }
+
+  .sketch-card:hover {
+    transform: translateY(calc(var(--sketch-offset, 0px) - 4px));
+  }
+
+  .sketch-image {
+    border: 1px solid color-mix(in srgb, var(--text-muted) 28%, transparent);
+    border-radius: var(--radius-card);
+    box-shadow: 0 14px 32px -26px rgba(161, 161, 170, 0.45);
+    transition: box-shadow 0.35s ease, border-color 0.35s ease;
+  }
+
+  .sketch-card:hover .sketch-image {
+    border-color: color-mix(in srgb, var(--text-muted) 45%, transparent);
+    box-shadow: 0 18px 40px -28px rgba(161, 161, 170, 0.6);
+  }
+
+  .sketch-grid .sketch-card:nth-child(3n + 2) {
+    --sketch-offset: 75px;
+  }
 }
