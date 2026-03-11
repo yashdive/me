@@ -175,4 +175,74 @@
   .sketch-grid .sketch-card:nth-child(3n + 2) {
     --sketch-offset: 75px;
   }
+
+  .sketch-button {
+    display: block;
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .sketch-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: grid;
+    place-items: center;
+  }
+
+  .sketch-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
+    border: none;
+  }
+
+  .sketch-modal-content {
+    position: relative;
+    z-index: 1;
+    max-width: min(45vw, 430px);
+    max-height: 42.5vh;
+    animation: sketch-pop 500ms ease-out;
+  }
+
+  .sketch-modal-image {
+    width: 100%;
+    height: auto;
+    max-height: 42.5vh;
+    object-fit: contain;
+    border-radius: calc(var(--radius-card) + 4px);
+    border: 1px solid color-mix(in srgb, var(--text-muted) 35%, transparent);
+    box-shadow: 0 28px 60px -40px rgba(161, 161, 170, 0.65);
+  }
+
+  .sketch-modal-close {
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--text-muted) 35%, transparent);
+    background: color-mix(in srgb, var(--color-surface) 80%, transparent);
+    color: var(--text-primary);
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  @keyframes sketch-pop {
+    from {
+      opacity: 0;
+      transform: translate(var(--sketch-from-x, 0px), var(--sketch-from-y, 18px))
+        scale(var(--sketch-from-scale, 0.92));
+    }
+    to {
+      opacity: 1;
+      transform: translate(0, 0) scale(1);
+    }
+  }
 }

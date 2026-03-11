@@ -129,8 +129,11 @@ export default function App() {
   const [timelineTarget, setTimelineTarget] = useState(0);
   const [timelineProgress, setTimelineProgress] = useState(0);
   const [currentHash, setCurrentHash] = useState(window.location.hash || '#home');
+  const [activeSketch, setActiveSketch] = useState(null);
+  const [sketchMotion, setSketchMotion] = useState(null);
   const experienceRef = useRef(null);
   const nextSectionRef = useRef(null);
+  const modalContentRef = useRef(null);
 
   const selectedWork = currentHash.startsWith('#project/')
     ? works.find((work) => `#project/${work.slug}` === currentHash)
@@ -227,6 +230,59 @@ export default function App() {
     frameId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(frameId);
   }, [timelineTarget]);
+
+  useEffect(() => {
+    if (activeSketch) {
+      const previousOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = previousOverflow;
+      };
+    }
+    return undefined;
+  }, [activeSketch]);
+
+  useEffect(() => {
+    if (!activeSketch) return undefined;
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setActiveSketch(null);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeSketch]);
+
+  useEffect(() => {
+    if (!activeSketch || !modalContentRef.current || !activeSketch.rect) {
+      setSketchMotion(null);
+      return;
+    }
+
+    const updateMotion = () => {
+      const modalRect = modalContentRef.current.getBoundingClientRect();
+      const viewportCenterX = window.innerWidth / 2;
+      const viewportCenterY = window.innerHeight / 2;
+      const fromCenterX = activeSketch.rect.left + activeSketch.rect.width / 2;
+      const fromCenterY = activeSketch.rect.top + activeSketch.rect.height / 2;
+      const deltaX = fromCenterX - viewportCenterX;
+      const deltaY = fromCenterY - viewportCenterY;
+      const scaleX = activeSketch.rect.width / modalRect.width;
+      const scaleY = activeSketch.rect.height / modalRect.height;
+      const scale = Math.min(scaleX, scaleY, 1);
+
+      setSketchMotion({
+        x: `${deltaX.toFixed(2)}px`,
+        y: `${deltaY.toFixed(2)}px`,
+        scale: scale.toFixed(3),
+      });
+    };
+
+    const rafId = requestAnimationFrame(updateMotion);
+    return () => cancelAnimationFrame(rafId);
+  }, [activeSketch]);
 
   if (selectedWork) {
     return (
@@ -491,24 +547,72 @@ export default function App() {
 
         <section id="sketches" className="mt-12 border-t border-subtle pb-12 pt-8">
           <h2 className="mb-8 text-center heading-2 text-primary">
-            and of course, some sketches I did for fun and cause I could...
+            and ofcourse, some sketches I did for fun and cause I could...
           </h2>
 
           <div className="mx-auto grid w-full grid-cols-3 gap-14 px-2 sketch-grid">
             {sketches.map((sketch) => (
               <figure key={sketch.src} className="sketch-card">
-                <img
-                  src={sketch.src}
-                  alt={sketch.alt}
-                  className="aspect-[2/3] w-[64%] object-cover mx-auto sketch-image"
-                  loading="lazy"
-                />
+                <button
+                  type="button"
+                  className="sketch-button"
+                  onClick={(event) => {
+                    const img = event.currentTarget.querySelector('img');
+                    const rect = img ? img.getBoundingClientRect() : null;
+                    setActiveSketch(rect ? { ...sketch, rect } : sketch);
+                  }}
+                >
+                  <img
+                    src={sketch.src}
+                    alt={sketch.alt}
+                    className="aspect-[2/3] w-[64%] object-cover mx-auto sketch-image"
+                    loading="lazy"
+                  />
+                </button>
               </figure>
             ))}
           </div>
         </section>
 
       </main>
+
+      {activeSketch ? (
+        <div className="sketch-modal" role="dialog" aria-modal="true">
+          <button
+            type="button"
+            className="sketch-modal-backdrop"
+            aria-label="Close sketch preview"
+            onClick={() => setActiveSketch(null)}
+          />
+          <div
+            ref={modalContentRef}
+            className="sketch-modal-content"
+            style={
+              sketchMotion
+                ? {
+                  '--sketch-from-x': sketchMotion.x,
+                  '--sketch-from-y': sketchMotion.y,
+                  '--sketch-from-scale': sketchMotion.scale,
+                }
+                : undefined
+            }
+          >
+            <button
+              type="button"
+              className="sketch-modal-close"
+              aria-label="Close sketch preview"
+              onClick={() => setActiveSketch(null)}
+            >
+              ×
+            </button>
+            <img
+              src={activeSketch.src}
+              alt={activeSketch.alt}
+              className="sketch-modal-image"
+            />
+          </div>
+        </div>
+      ) : null}
 
       <footer id="contact" className="mt-10 flex justify-center border-t border-subtle pt-4">
         <div className="flex items-center gap-2">
