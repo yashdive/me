@@ -19,6 +19,12 @@ import sketch15 from '../assets/sketches/WhatsApp Image 2026-01-12 at 07.10.28 (
 
 const experiences = [
   {
+    company: 'Columbia Irving Medical Center',
+    role: 'Research Intern',
+    dates: 'May 2025 - Aug 2025',
+    summary: 'At Columbia Irving Medical Center, I am assinting Dr. Tian with understanding the effects of scRNA on different diseases. Our approach involves using Multiple Instance Learning and a form of Attention Mechanism to identify which cell types and genes are most associated with disease outcomes. I am responsible for data preprocessing, model development, and result analysis, and we are currently preparing a paper to share our findings with the research community.'
+  },
+  {
     company: 'Game2Learn Labs',
     role: 'Student Researcher',
     dates: 'Sep 2025 - Dec 2025',
@@ -35,6 +41,13 @@ const experiences = [
 ];
 
 const works = [
+  {
+    slug: 'multimodal-single-cell-instance-classification',
+    title: 'MoSIC: Multimodal Single-cell Instance Classification',
+    period: 'Research Internship',
+    description:'A novel deep learning model that integrates scRNA-seq and scATAC-seq data to classify cell types with high accuracy.',
+    tags: ['scRNA-seq', 'scATAC-seq', 'Multiple Instance Learning','Attention Mechanism', 'Transformers'],
+  },
   {
     slug: 'concept-aware-student-response-classification',
     title: 'Concept-Aware Student Response Classification',
