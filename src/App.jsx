@@ -21,7 +21,7 @@ const experiences = [
   {
     company: 'Columbia Irving Medical Center',
     role: 'Research Intern',
-    dates: 'May 2025 - Aug 2025',
+    dates: 'May 2025 - Present',
     summary: 'At Columbia Irving Medical Center, I am assinting Dr. Tian with understanding the effects of scRNA on different diseases. Our approach involves using Multiple Instance Learning and a form of Attention Mechanism to identify which cell types and genes are most associated with disease outcomes. I am responsible for data preprocessing, model development, and result analysis, and we are currently preparing a paper to share our findings with the research community.'
   },
   {
