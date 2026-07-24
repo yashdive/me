@@ -423,18 +423,13 @@ export default function App() {
           </div>
           <div>
             <div className="max-w-[60ch] space-y-4 body-text text-muted">
-              <p>
-                I didn&apos;t fall in love with computer science because of code. I loved the idea
-                that a thought can become something real, a system or solution that didn&apos;t exist
-                before.
-              </p>
+              <p>I think hope is the best tool a man can have. Stopping is not an option and until death all defeat is psychological.</p>
               <p>
                 When I learn something new, I wanna build it and see it work. I like turning
-                theory into programs and ideas into real systems. Contributing to open source and
-                designing projects is how I learn and understand the world.
+                theory into programs and ideas into real systems.
               </p>
               <p>
-                Right now, I&apos;m on a new adventure pursuing my master&apos;s at North Carolina State
+                Right now, I&apos;m pursuing my master&apos;s at North Carolina State
                 University, exploring parts of the computing world I always wanted to reach.
               </p>
               <p>
