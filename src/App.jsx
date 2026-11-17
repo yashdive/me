@@ -19,59 +19,79 @@ import sketch15 from '../assets/sketches/WhatsApp Image 2026-01-12 at 07.10.28 (
 
 const experiences = [
   {
-    company: 'Columbia Irving Medical Center',
-    role: 'Research Intern',
-    dates: 'May 2025 - Present',
-    summary: 'At Columbia Irving Medical Center, I am assinting Dr. Tian with understanding the effects of scRNA on different diseases. Our approach involves using Multiple Instance Learning and a form of Attention Mechanism to identify which cell types and genes are most associated with disease outcomes. I am responsible for data preprocessing, model development, and result analysis, and we are currently preparing a paper to share our findings with the research community.'
+    company: 'North Carolina State University',
+    role: 'Graduate Research Assistant',
+    dates: 'Sep 2025 - Present',
+    summary:
+      'At NC State, I build LLM tools for a live programming education app, working directly with the professors who use them. My main project is a system that writes grading rubrics: a professor enters a title, the topics, the problem statement and total marks, and it pulls the matching course material (LangChain, sentence embeddings, ChromaDB) and has GPT-3.5 draft a complete rubric grounded in it, so nobody has to write each one by hand. It runs as a FastAPI service in Docker, and about 20 professors have used and tested it. Their feedback shaped most of the design. On the research side, I study whether stronger chain-of-thought reasoning makes LLM representations more separable, by building CoT-conditioned embeddings across several models and measuring them with k-nearest-neighbor and clustering metrics.',
   },
   {
-    company: 'Game2Learn Labs',
-    role: 'Student Researcher',
-    dates: 'Sep 2025 - Dec 2025',
+    company: 'Columbia Irving Medical Center',
+    role: 'Research Intern',
+    dates: 'May 2026 - Aug 2026',
     summary:
-      'At Game2Learn Labs, I built an end-to-end LLM-powered rubric generation system for Snapclass, a block-based programming platform, to help instructors evaluate student work more consistently and efficiently. I designed and fine-tuned the model using over 500 labeled student submissions so it could distinguish between partial solutions, conceptual misunderstandings, and complete implementations. The system was deployed as a web application used by instructors and over 150 students, generating real-time evaluation rubrics that aligned with instructor expectations 92% of the time, reduced manual grading effort by 65%, and improved grading consistency from 72% to 89%.',
+      'This summer I worked with Dr. Tian at Columbia on what single-cell RNA-seq data can tell us about disease. I built a transformer-based single-cell encoder, similar to scGPT, that turns each cell into an embedding, and used those embeddings for differential expression analysis across cancer, TNBC, COVID-19 and Alzheimer\'s datasets. On top of that, I trained an attention-based multiple-instance learning model that looks at all of a patient\'s cells together to classify the patient. It reached 95% accuracy and 0.94 AUROC on a held-out cancer cohort. I also tracked down the cause of unstable gradients in a contrastive model so it trained reliably, and set up stratified cross-validation with MLflow so results were reproducible across datasets.',
   },
   {
     company: 'Tata Consultancy Services',
-    role: 'Software Engineer',
-    dates: 'Jan 2022 - Aug 2025',
+    role: 'Systems Engineer',
+    dates: 'Jul 2022 - Aug 2025',
     summary:
-      'At Tata Consultancy Services, I built an AI-powered Invoice Validation System from the ground up to automate billing compliance across large-scale enterprise workflows. I combined a BERT-based classifier with a configurable rule engine and developed a spaCy NER pipeline to extract key invoice entities with high precision, transforming unstructured data into actionable insights and significantly reducing false positives. I architected and deployed the system on AWS with Airflow-based orchestration, automated retraining for data drift, and real-time monitoring to ensure reliability in production. Alongside the ML system, I led development of a Contract and Demand Management dashboard used across multiple business units, designed secure and scalable REST APIs, optimized database performance through indexing and caching, and built CI/CD pipelines that accelerated releases and improved system stability. Together, this work reduced manual review effort, improved operational efficiency, and delivered a robust, production-grade platform handling high daily traffic.'
+      'At Tata Consultancy Services, I built a production ML pipeline that read about 500 scanned invoices a day, replacing the manual work of people reading each one. I fine-tuned LayoutLMv3 alongside OCR to pull 10+ key fields from every invoice, then added a validation step that didn\'t exist before: statistical checks on each field plus fuzzy matching of vendor names against the ERP database. With it, 89% of invoices went through with no human fix. To keep up with the daily volume, I benchmarked TorchServe settings, added dynamic batching and exported the model to ONNX, which cut inference from over a second to 450 ms. The pipeline ran on AWS, and I shipped updates through CI/CD in small, tested releases as part of an Agile team.',
   },
 ];
 
 const works = [
   {
+    slug: 'unspoken',
+    github: 'https://github.com/Aum3010/unspoken-nvidia-small-models-hack',
+    title: 'Unspoken: Communication for Non-Speaking Patients',
+    period: 'Hackathon · Winner',
+    description:
+      'An assistive system that turns weak voice, silent lip movements, eye tracking and deliberate blinks or nods into spoken text, for people who understand but cannot speak.',
+    tags: ['PyTorch', 'vLLM', 'Multimodal', 'FastAPI'],
+    fullDescription:
+      'Unspoken is for people who understand everything around them but can no longer speak. It combines whatever signals they can still give, like a weak voice, silent lip movements, eye tracking and deliberate blinks or nods, into a phrase, and the person confirms it before it is spoken aloud. Each signal has its own small PyTorch model, and when the models disagree an NVIDIA Nemotron LLM served on vLLM acts as the coordinator, all sharing a single GPU. In loud noise, lips plus voice understood 76% of phrases compared to 8% with voice alone, which is exactly the gap we built it for. The models are served through FastAPI and WebSocket services, and under load testing vLLM handled 64 simultaneous requests with zero errors. It won the hackathon.',
+    skills: ['PyTorch', 'vLLM', 'NVIDIA Nemotron', 'FastAPI', 'WebSockets', 'Eye Tracking'],
+  },
+  {
+    slug: 'f1-pit-strategy',
+    github: 'https://github.com/yashdive/pitwall-ml',
+    title: 'F1 Pit Strategy',
+    period: 'ML Systems Project',
+    description:
+      'A production-style ML system that predicts tyre degradation during a Formula 1 race and decides whether a driver should pit.',
+    tags: ['XGBoost', 'Feature Store', 'Docker', 'AWS'],
+    fullDescription:
+      'This system predicts how a Formula 1 car\'s tyres degrade during a race and decides whether the driver should pit. The model is XGBoost trained on engineered lap, tyre, stint and track-condition features, and it reaches 86% accuracy. Most of the work went into treating it like a real production system. Data comes in through streaming ingestion into a point-in-time feature store, so the model only ever trains on information that would have been available at prediction time, which keeps data leakage out. It runs in Docker on AWS with automated retraining and drift monitoring, and new models go out in shadow deployment first, so they can be tested on live data without affecting the predictions anyone sees.',
+    skills: ['XGBoost', 'Feature Engineering', 'Feature Store', 'Drift Monitoring', 'Docker', 'AWS'],
+  },
+  {
+    slug: 'street-view-building-classification',
+    github: 'https://github.com/yashdive/GIC_TEST_A',
+    title: 'Street-View Building Type Classification',
+    period: 'Computer Vision Project',
+    description:
+      'A vision system that sorts buildings into five types from about 24K Street View images, combining CLIP, GroundingDINO and OCR.',
+    tags: ['CLIP', 'GroundingDINO', 'OCR', 'Computer Vision'],
+    fullDescription:
+      'This project classifies buildings into five types from about 24K Google Street View images. No single model was reliable enough, so it combines three signals: CLIP ViT-B/32 for whole-image classification, GroundingDINO to detect telling objects, and OCR to read signs. All the results for a location are then aggregated into one final label. To know what actually helped, I built a ground-truth set with manual and LLM-assisted labeling and evaluated each component one at a time, keeping only the parts that improved accuracy. The final system reached 87% precision and 89% recall.',
+    skills: ['CLIP', 'GroundingDINO', 'OCR', 'Ensembling', 'Evaluation Design'],
+  },
+  {
     slug: 'multimodal-single-cell-instance-classification',
+    github: 'https://github.com/yashdive/mosic_ncsu',
     title: 'MoSIC: Multimodal Single-cell Instance Classification',
     period: 'Research Internship',
-    description:'A novel deep learning model that integrates scRNA-seq and scATAC-seq data to classify cell types with high accuracy.',
+    description:'A deep learning model that integrates scRNA-seq and scATAC-seq data to classify cell types with high accuracy.',
     tags: ['scRNA-seq', 'scATAC-seq', 'Multiple Instance Learning','Attention Mechanism', 'Transformers'],
-  },
-  {
-    slug: 'concept-aware-student-response-classification',
-    title: 'Concept-Aware Student Response Classification',
-    period: 'Academic Project',
-    description:
-      'A multi-class text classifier that scores concept understanding across four correctness levels, beyond keyword matching.',
-    tags: ['BERT', 'PyTorch', 'NLP'],
     fullDescription:
-      'This is a multi-class classifier that evaluates student responses at four levels of correctness to capture conceptual understanding rather than keyword overlap. I fine-tuned BERT with PyTorch/HuggingFace on 3,000+ student Q&A pairs and handled a 60/40 class imbalance using SMOTE and class weighting. The model encodes responses into contextual embeddings and maps them to one of four correctness levels with a classification head. Results were 85% accuracy and 0.81 macro-F1, with minority-class F1 improved from 0.52 to 0.73 after imbalance handling, and the findings were published to a class repository with 25+ downloads. I also learned that accuracy alone is misleading on imbalanced data and that fine-tuning choices across learning rates, batch sizes, and epochs materially change concept-level reasoning versus keyword matching.',
-    skills: ['BERT', 'PyTorch', 'HuggingFace', 'SMOTE', 'Ablation Studies'],
-  },
-  {
-    slug: 'hybrid-movie-recommendation-engine',
-    title: 'Hybrid Movie Recommendation Engine',
-    period: 'Academic Project',
-    description:
-      'A hybrid recommender that blends collaborative filtering, content signals, and neural re-ranking to handle cold-start users.',
-    tags: ['Recommender', 'SVD', 'PyTorch'],
-    fullDescription:
-      'This is a recommendation system that blends collaborative filtering, content-based filtering, and a neural re-ranking layer to generate personalized movie suggestions, with special focus on cold-start users. I used SVD matrix factorization for collaborative filtering and TF-IDF embeddings on genre and plot metadata for content-based filtering, then trained a PyTorch re-ranker on MovieLens 100K to fuse latent user-item factors with content features. The system generates candidates from both models and re-ranks them with a combined representation, while new users rely more on content signals to avoid blank recommendations. Results showed an 18% improvement in recommendation relevance, a 30% reduction in cold-start failures, and better coverage of long-tail titles. The biggest learning was that the balance between collaborative and content signals must adapt to how much user history is available to avoid generic outputs.',
-    skills: ['SVD', 'TF-IDF', 'PyTorch', 'Re-Ranking', 'MovieLens'],
+      'MoSIC came out of my research internship at Columbia Irving Medical Center. It integrates scRNA-seq and scATAC-seq data to classify cells, using a transformer-based single-cell encoder to turn each cell into an embedding and attention-based multiple-instance learning on top. The attention weights also show which cells drive a prediction, which is what makes the model useful to researchers and not just accurate.',
+    skills: ['PyTorch', 'Transformers', 'Multiple Instance Learning', 'Attention', 'MLflow'],
   },
   {
     slug: 'poultry-disease-classifier',
+    github: 'https://github.com/yashdive/poultry-disease-classifier',
     title: 'Poultry Disease Classifier',
     period: 'Academic Project',
     description:
@@ -130,6 +150,29 @@ const sketches = [
   { src: sketch13, alt: 'Sketch 13' },
   { src: sketch14, alt: 'Sketch 14' },
   { src: sketch15, alt: 'Sketch 15' },
+];
+
+const socialLinks = [
+  {
+    label: 'GitHub',
+    href: 'https://github.com/yashdive',
+    path: 'M12 .5a12 12 0 0 0-3.79 23.38c.6.11.82-.26.82-.58v-2.05c-3.34.72-4.04-1.42-4.04-1.42-.55-1.38-1.33-1.74-1.33-1.74-1.09-.75.08-.73.08-.73 1.2.09 1.83 1.22 1.83 1.22 1.07 1.82 2.8 1.29 3.48.99.11-.76.42-1.29.76-1.58-2.67-.3-5.47-1.32-5.47-5.87 0-1.3.47-2.37 1.23-3.2-.12-.3-.53-1.53.12-3.19 0 0 1.01-.32 3.3 1.22a11.6 11.6 0 0 1 6 0c2.29-1.54 3.29-1.22 3.29-1.22.65 1.66.24 2.89.12 3.19.77.83 1.23 1.9 1.23 3.2 0 4.56-2.8 5.57-5.47 5.87.43.37.82 1.1.82 2.22v3.29c0 .32.22.69.83.58A12 12 0 0 0 12 .5Z',
+  },
+  {
+    label: 'Instagram',
+    href: 'https://www.instagram.com/',
+    path: 'M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm-.2 2A3.6 3.6 0 0 0 4 7.6v8.8A3.6 3.6 0 0 0 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6A3.6 3.6 0 0 0 16.4 4H7.6Zm9.65 1.55a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z',
+  },
+  {
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/in/yash2131',
+    path: 'M6.94 8.5a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5ZM5.4 9.8h3.1V19H5.4V9.8Zm5.1 0h3v1.26h.04c.41-.78 1.44-1.6 2.96-1.6 3.16 0 3.74 2.08 3.74 4.78V19h-3.1v-4.2c0-1 0-2.28-1.39-2.28-1.4 0-1.62 1.08-1.62 2.2V19h-3.1V9.8Z',
+  },
+  {
+    label: 'Email',
+    href: 'mailto:yash.b.m.v@gmail.com',
+    path: 'M3 5h18a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm0 2v.4l9 5.4 9-5.4V7H3Zm18 10V9.73l-8.48 5.1a1 1 0 0 1-1.04 0L3 9.73V17h18Z',
+  },
 ];
 
 const navLinkClass =
@@ -297,6 +340,10 @@ export default function App() {
     return () => cancelAnimationFrame(rafId);
   }, [activeSketch]);
 
+  useEffect(() => {
+    if (selectedWork) window.scrollTo(0, 0);
+  }, [selectedWork]);
+
   if (selectedWork) {
     return (
       <div className="min-h-screen w-full app-root px-4 pb-14 pt-12 md:px-10 lg:px-16">
@@ -335,6 +382,16 @@ export default function App() {
                 ))}
               </ul>
             </div>
+            {selectedWork.github ? (
+              <a
+                href={selectedWork.github}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-6 inline-block body-text text-link transition-colors duration-300 hover-soft"
+              >
+                View on GitHub ↗
+              </a>
+            ) : null}
           </div>
         </div>
       </div>
@@ -376,51 +433,48 @@ export default function App() {
           </p>
 
           <div className="mt-2 flex w-full max-w-[520px] flex-wrap justify-center gap-3">
-            <a href="https://github.com/" target="_blank" rel="noreferrer" className={socialIconClass} aria-label="GitHub">
-              <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[22px] w-[22px] fill-current">
-                <path d="M12 .5a12 12 0 0 0-3.79 23.38c.6.11.82-.26.82-.58v-2.05c-3.34.72-4.04-1.42-4.04-1.42-.55-1.38-1.33-1.74-1.33-1.74-1.09-.75.08-.73.08-.73 1.2.09 1.83 1.22 1.83 1.22 1.07 1.82 2.8 1.29 3.48.99.11-.76.42-1.29.76-1.58-2.67-.3-5.47-1.32-5.47-5.87 0-1.3.47-2.37 1.23-3.2-.12-.3-.53-1.53.12-3.19 0 0 1.01-.32 3.3 1.22a11.6 11.6 0 0 1 6 0c2.29-1.54 3.29-1.22 3.29-1.22.65 1.66.24 2.89.12 3.19.77.83 1.23 1.9 1.23 3.2 0 4.56-2.8 5.57-5.47 5.87.43.37.82 1.1.82 2.22v3.29c0 .32.22.69.83.58A12 12 0 0 0 12 .5Z" />
-              </svg>
-              <span className="sr-only">GitHub</span>
-            </a>
-            <a href="https://www.instagram.com/" target="_blank" rel="noreferrer" className={socialIconClass} aria-label="Instagram">
-              <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[22px] w-[22px] fill-current">
-                <path d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm-.2 2A3.6 3.6 0 0 0 4 7.6v8.8A3.6 3.6 0 0 0 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6A3.6 3.6 0 0 0 16.4 4H7.6Zm9.65 1.55a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z" />
-              </svg>
-              <span className="sr-only">Instagram</span>
-            </a>
-            <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer" className={socialIconClass} aria-label="LinkedIn">
-              <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[22px] w-[22px] fill-current">
-                <path d="M6.94 8.5a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5ZM5.4 9.8h3.1V19H5.4V9.8Zm5.1 0h3v1.26h.04c.41-.78 1.44-1.6 2.96-1.6 3.16 0 3.74 2.08 3.74 4.78V19h-3.1v-4.2c0-1 0-2.28-1.39-2.28-1.4 0-1.62 1.08-1.62 2.2V19h-3.1V9.8Z" />
-              </svg>
-              <span className="sr-only">LinkedIn</span>
-            </a>
-            <a href="mailto:youremail@example.com" className={socialIconClass} aria-label="Email">
-              <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[22px] w-[22px] fill-current">
-                <path d="M3 5h18a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm0 2v.4l9 5.4 9-5.4V7H3Zm18 10V9.73l-8.48 5.1a1 1 0 0 1-1.04 0L3 9.73V17h18Z" />
-              </svg>
-              <span className="sr-only">Mail</span>
-            </a>
+            {socialLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                {...(link.href.startsWith('mailto:') ? {} : { target: '_blank', rel: 'noreferrer' })}
+                className={socialIconClass}
+                aria-label={link.label}
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true" className="h-[22px] w-[22px] fill-current">
+                  <path d={link.path} />
+                </svg>
+              </a>
+            ))}
           </div>
         </div>
 
-        <div className="flex justify-center">
+        <figure className="flex flex-col items-center">
           <img
             src={profileImage}
-            alt="Yash Dive portrait"
+            alt="The first page of the paper Attention Is All You Need"
             className="aspect-[5/4] w-full max-w-[560px] object-cover image-pop"
           />
-        </div>
+          <figcaption className="mt-3 w-full max-w-[560px] text-center body-text text-muted italic">
+            Attention Is All You Need. I love this paper. It kind of changed everything, and
+            it&apos;s the first thing I&apos;d recommend anyone read.
+          </figcaption>
+        </figure>
       </header>
 
       <main>
         <section id="work" className="grid grid-cols-1 items-center gap-6 border-t border-subtle pt-8 lg:grid-cols-2">
-          <div className="flex justify-center lg:justify-start">
+          <figure className="flex flex-col items-center lg:items-start">
             <img
               src={transformerImage}
-              alt="Transformer architecture graphic"
+              alt="Diagram of the Transformer architecture"
               className="w-full max-w-[460px] object-contain"
             />
-          </div>
+            <figcaption className="mt-3 w-full max-w-[460px] text-center body-text text-muted italic">
+              The Transformer architecture. It changed everything too, and it&apos;s my
+              favourite diagram.
+            </figcaption>
+          </figure>
           <div>
             <div className="max-w-[60ch] space-y-4 body-text text-muted">
               <p>I think hope is the best tool a man can have. Stopping is not an option and until death all defeat is psychological.</p>
@@ -430,7 +484,8 @@ export default function App() {
               </p>
               <p>
                 Right now, I&apos;m pursuing my master&apos;s at North Carolina State
-                University, exploring parts of the computing world I always wanted to reach.
+                University (graduating May 2027), where I build LLM tools for teaching and
+                research how language models represent reasoning.
               </p>
               <p>
                 For me, computer science is a way to turn ideas into things that can grow and
@@ -503,15 +558,27 @@ export default function App() {
                     </li>
                   ))}
                 </ul>
-                <button
-                  type="button"
-                  onClick={() => {
-                    window.location.hash = `#project/${item.slug}`;
-                  }}
-                  className="mt-auto pt-6 body-text text-link transition-colors duration-300 hover-soft"
-                >
-                  View Details →
-                </button>
+                <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-2 pt-6">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      window.location.hash = `#project/${item.slug}`;
+                    }}
+                    className="body-text text-link transition-colors duration-300 hover-soft"
+                  >
+                    View Details →
+                  </button>
+                  {item.github ? (
+                    <a
+                      href={item.github}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="body-text text-link transition-colors duration-300 hover-soft"
+                    >
+                      GitHub ↗
+                    </a>
+                  ) : null}
+                </div>
               </article>
             ))}
           </div>
@@ -555,7 +622,7 @@ export default function App() {
 
         <section id="sketches" className="mt-12 border-t border-subtle pb-12 pt-8">
           <h2 className="mb-8 text-center heading-2 text-primary">
-            and ofcourse, some sketches I did for fun and cause I could...
+            and of course, some sketches I did for fun and cause I could...
           </h2>
 
           <div className="mx-auto grid w-full grid-cols-3 gap-14 px-2 sketch-grid">
@@ -624,48 +691,19 @@ export default function App() {
 
       <footer id="contact" className="mt-10 flex justify-center border-t border-subtle pt-4">
         <div className="flex items-center gap-2">
-          <a
-            href="https://github.com/"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex h-9 w-9 items-center justify-center text-muted transition-colors duration-500 ease-out hover-soft"
-            aria-label="GitHub"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
-              <path d="M12 .5a12 12 0 0 0-3.79 23.38c.6.11.82-.26.82-.58v-2.05c-3.34.72-4.04-1.42-4.04-1.42-.55-1.38-1.33-1.74-1.33-1.74-1.09-.75.08-.73.08-.73 1.2.09 1.83 1.22 1.83 1.22 1.07 1.82 2.8 1.29 3.48.99.11-.76.42-1.29.76-1.58-2.67-.3-5.47-1.32-5.47-5.87 0-1.3.47-2.37 1.23-3.2-.12-.3-.53-1.53.12-3.19 0 0 1.01-.32 3.3 1.22a11.6 11.6 0 0 1 6 0c2.29-1.54 3.29-1.22 3.29-1.22.65 1.66.24 2.89.12 3.19.77.83 1.23 1.9 1.23 3.2 0 4.56-2.8 5.57-5.47 5.87.43.37.82 1.1.82 2.22v3.29c0 .32.22.69.83.58A12 12 0 0 0 12 .5Z" />
-            </svg>
-          </a>
-          <a
-            href="https://www.instagram.com/"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex h-9 w-9 items-center justify-center text-muted transition-colors duration-500 ease-out hover-soft"
-            aria-label="Instagram"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
-              <path d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm-.2 2A3.6 3.6 0 0 0 4 7.6v8.8A3.6 3.6 0 0 0 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6A3.6 3.6 0 0 0 16.4 4H7.6Zm9.65 1.55a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z" />
-            </svg>
-          </a>
-          <a
-            href="https://www.linkedin.com/"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex h-9 w-9 items-center justify-center text-muted transition-colors duration-500 ease-out hover-soft"
-            aria-label="LinkedIn"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
-              <path d="M6.94 8.5a1.75 1.75 0 1 1 0-3.5 1.75 1.75 0 0 1 0 3.5ZM5.4 9.8h3.1V19H5.4V9.8Zm5.1 0h3v1.26h.04c.41-.78 1.44-1.6 2.96-1.6 3.16 0 3.74 2.08 3.74 4.78V19h-3.1v-4.2c0-1 0-2.28-1.39-2.28-1.4 0-1.62 1.08-1.62 2.2V19h-3.1V9.8Z" />
-            </svg>
-          </a>
-          <a
-            href="mailto:youremail@example.com"
-            className="inline-flex h-9 w-9 items-center justify-center text-muted transition-colors duration-500 ease-out hover-soft"
-            aria-label="Email"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
-              <path d="M3 5h18a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Zm0 2v.4l9 5.4 9-5.4V7H3Zm18 10V9.73l-8.48 5.1a1 1 0 0 1-1.04 0L3 9.73V17h18Z" />
-            </svg>
-          </a>
+          {socialLinks.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              {...(link.href.startsWith('mailto:') ? {} : { target: '_blank', rel: 'noreferrer' })}
+              className="inline-flex h-9 w-9 items-center justify-center text-muted transition-colors duration-500 ease-out hover-soft"
+              aria-label={link.label}
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
+                <path d={link.path} />
+              </svg>
+            </a>
+          ))}
         </div>
       </footer>
     </div>
