@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import Notes from './Notes';
 import profileImage from '../assets/attention.jpg';
 import transformerImage from '../assets/transformer1.png';
 import sketch01 from '../assets/sketches/WhatsApp Image 2026-01-12 at 07.08.46.jpeg';
@@ -344,6 +345,10 @@ export default function App() {
     if (selectedWork) window.scrollTo(0, 0);
   }, [selectedWork]);
 
+  if (currentHash === '#notes' || currentHash.startsWith('#notes/')) {
+    return <Notes slug={currentHash.slice('#notes/'.length) || null} />;
+  }
+
   if (selectedWork) {
     return (
       <div className="min-h-screen w-full app-root px-4 pb-14 pt-12 md:px-10 lg:px-16">
@@ -415,6 +420,9 @@ export default function App() {
         <div className="flex flex-wrap items-center gap-4">
           <a href="#home" onClick={(e) => handleSlowNav(e, '#home')} className={navLinkClass}>
             Home
+          </a>
+          <a href="#notes" className={navLinkClass}>
+            Notes
           </a>
           <a href="#contact" onClick={(e) => handleSlowNav(e, '#contact')} className={navLinkClass}>
             Contact
